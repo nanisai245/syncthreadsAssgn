@@ -9,8 +9,9 @@ const userRouter = require("./routes/userRoutes");
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "https://syncthreadsassgn.onrender.com",
+    origin: "https://syncthreads-assgn.vercel.app/",
     credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   })
 );
 app.use(express.json());
