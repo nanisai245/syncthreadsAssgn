@@ -50,6 +50,7 @@ function Dashboard() {
       try {
         const res = await axiosInstance.get("/dashboard");
         const data = res.data.data;
+        console.log(data);
         setHotels(data.dummyData);
       } catch (err) {
         console.log(err);
