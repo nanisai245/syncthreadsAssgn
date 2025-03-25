@@ -4,6 +4,7 @@ import backgroundImage from "../assets/bg.png";
 import { Link, useNavigate } from "react-router-dom";
 import { axiosInstance } from "../utils/axios";
 import { toast } from "react-toastify";
+import { useAuth } from "../context/AuthContext";
 
 const Main = styled.main`
   display: flex;
@@ -69,6 +70,8 @@ function Login() {
 
   const navigate = useNavigate();
 
+  const { login } = useAuth();
+
   const handleChange = (e, name) => {
     setUserData((prev) => ({ ...prev, [name]: e.target.value }));
   };
@@ -78,10 +81,11 @@ function Login() {
 
     try {
       const res = await axiosInstance.post("/login", userData);
+      const token = res.data.token;
 
       if (res.status === 200) {
+        login(token);
         toast.success("Logged in successfully");
-        localStorage.setItem("token", res.data.token);
         navigate("/dashboard");
       }
     } catch (err) {

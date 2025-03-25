@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import logo from "../assets/Vector.png";
 import styled from "styled-components";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { axiosInstance } from "../utils/axios";
 import { toast } from "react-toastify";
+import { useAuth } from "../context/AuthContext";
 
 const Header = styled.header`
   width: 100%;
@@ -55,26 +56,28 @@ const Div = styled.div`
 `;
 
 function Navbar() {
-  const [isAuth, setIsAuth] = useState(!!localStorage.getItem("token"));
+  const { isAuth, logout } = useAuth();
+  const navigate = useNavigate();
+  // const [isAuth, setIsAuth] = useState(!!localStorage.getItem("token"));
 
   const handleLogout = async () => {
     await axiosInstance.post("/logout");
-    localStorage.removeItem("token");
-    setIsAuth(false);
+    logout(); // Use the global logout function
     toast.success("User logged out successfully");
+    navigate("/login");
   };
 
   return (
     <Header>
       <Div>
-        <img src={logo} />
+        <img src={logo} alt="logo" />
         <h2>Expense</h2>
       </Div>
       <ul>
         <li>
           <NavLink to="/dashboard">Dashboard</NavLink>
         </li>
-        {!isAuth && (
+        {!isAuth ? (
           <>
             <li>
               <NavLink to="/login">SignIn</NavLink>
@@ -83,10 +86,9 @@ function Navbar() {
               <NavLink to="/signup">SignUp</NavLink>
             </li>
           </>
-        )}
-        {isAuth && (
+        ) : (
           <li>
-            <NavLink to="/logout" onClick={handleLogout}>
+            <NavLink to="#" onClick={handleLogout}>
               Logout
             </NavLink>
           </li>

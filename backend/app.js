@@ -1,3 +1,4 @@
+const path = require("path");
 const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
@@ -8,7 +9,8 @@ const userRouter = require("./routes/userRoutes");
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin:
+      "https://syncthreads-assgn-iyarf5awg-nanisai245s-projects.vercel.app/",
     credentials: true,
   })
 );
