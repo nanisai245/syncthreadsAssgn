@@ -8,7 +8,7 @@ const userRouter = require("./routes/userRoutes");
 
 app.use(cookieParser());
 const allowedOrigins = [
-  "http://localhost:3000",
+  "http://localhost:5001",
   "https://syncthreads-assgn.vercel.app",
   "https://syncthreads-assgn-p6xb63hns-nanisai245s-projects.vercel.app",
 ];
