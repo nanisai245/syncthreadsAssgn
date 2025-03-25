@@ -7,13 +7,14 @@ const app = express();
 const userRouter = require("./routes/userRoutes");
 
 app.use(cookieParser());
-app.use(
-  cors({
-    origin:
-      "https://syncthreads-assgn-iyarf5awg-nanisai245s-projects.vercel.app/",
-    credentials: true,
-  })
-);
+// app.use(
+//   cors({
+//     origin:
+//       "https://syncthreads-assgn-iyarf5awg-nanisai245s-projects.vercel.app/",
+//     credentials: true,
+//   })
+// );
+app.use(cors({ origin: "*" }));
 app.use(express.json());
 
 app.use("/api", userRouter);
