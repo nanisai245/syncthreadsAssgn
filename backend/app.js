@@ -8,7 +8,7 @@ const userRouter = require("./routes/userRoutes");
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "https://sync-threads-frontend-0f3r.onrender.com",
+    origin: "http://localhost:5173",
     credentials: true,
   })
 );
