@@ -11,7 +11,13 @@ function ProtectedRoute() {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const res = await axiosInstance.get("/auth/validate");
+        const token = localStorage.getItem("token");
+        const res = await axiosInstance.get("/auth/validate", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
         if (res.status === 200) {
           setIsAuth(true);
         }
