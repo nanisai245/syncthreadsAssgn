@@ -7,6 +7,7 @@ const app = express();
 const userRouter = require("./routes/userRoutes");
 
 app.use(cookieParser());
+app.set("trust proxy", 1);
 const allowedOrigins = [
   "http://localhost:5173",
   "https://syncthreads-assgn-miabmwguo-nanisai245s-projects.vercel.app/",
