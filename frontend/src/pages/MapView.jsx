@@ -27,7 +27,12 @@ function MapView() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await axiosInstance.get(`/map/${id}`);
+      const token = localStorage.getItem("token");
+      const res = await axiosInstance.get(`/map/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       const mapData = {
         center: res.data.data.center,
         zoom: res.data.data.zoom,

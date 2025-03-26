@@ -10,7 +10,12 @@ function Maps() {
   useEffect(() => {
     const fetchHotels = async () => {
       try {
-        const res = await axiosInstance.get("/dashboard");
+        const token = localStorage.getItem("token");
+        const res = await axiosInstance.get("/dashboard", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         const data = res.data.data;
         setHotels(data.dummyData);
       } catch (err) {
