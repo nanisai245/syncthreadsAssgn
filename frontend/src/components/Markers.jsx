@@ -1,7 +1,21 @@
 import React from "react";
 import { Marker, Popup } from "react-leaflet";
+import L from "leaflet";
+import "leaflet/dist/leaflet.css";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+
+import markerIcon from "leaflet/dist/images/marker-icon.png";
+import markerShadow from "leaflet/dist/images/marker-shadow.png";
+
+const customIcon = new L.Icon({
+  iconUrl: markerIcon,
+  shadowUrl: markerShadow,
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41],
+});
 
 const Div = styled.div`
   display: flex;
@@ -30,7 +44,7 @@ const Div = styled.div`
 
 function Markers({ id, latitude, longitude, image, title, bedrooms, price }) {
   return (
-    <Marker position={[latitude, longitude]}>
+    <Marker position={[latitude, longitude]} icon={customIcon}>
       <Popup>
         <Div>
           <img src={image} alt={title} />
