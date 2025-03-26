@@ -69,10 +69,13 @@ function Navbar() {
 
   return (
     <Header>
-      <Div>
-        <img src={logo} alt="logo" />
-        <h2>Expense</h2>
-      </Div>
+      <Link to="/">
+        <Div>
+          <img src={logo} alt="logo" />
+          <h2>Expense</h2>
+        </Div>
+      </Link>
+
       <ul>
         <li>
           <NavLink to="/dashboard">Dashboard</NavLink>

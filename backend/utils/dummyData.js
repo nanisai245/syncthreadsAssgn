@@ -43,7 +43,8 @@ exports.dummyData = [
   {
     id: 4,
     title: "Rambagh Palace",
-    image: "https://images.unsplash.com/photo-1522252234503-e356532cafd5",
+    image:
+      "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2c/20/5a/17/rambagh-palace-exterior.jpg?w=900&h=-1&s=1",
     bedrooms: 8,
     bathrooms: 8,
     price: 55000,
