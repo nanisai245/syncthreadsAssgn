@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import backgroundImage from "../assets/bg.png";
 import { Link, useNavigate } from "react-router-dom";
 import { axiosInstance } from "../utils/axios";
 import { toast } from "react-toastify";
-import { useAuth } from "../context/AuthContext";
+import { AuthContext } from "../context/AuthContext";
 
 const Main = styled.main`
   display: flex;
@@ -63,14 +63,13 @@ const Main = styled.main`
 `;
 
 function Login() {
+  const { login } = useContext(AuthContext);
   const [userData, setUserData] = useState({
     email: "",
     password: "",
   });
 
   const navigate = useNavigate();
-
-  const { login } = useAuth();
 
   const handleChange = (e, name) => {
     setUserData((prev) => ({ ...prev, [name]: e.target.value }));

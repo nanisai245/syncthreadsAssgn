@@ -33,7 +33,7 @@ npm install
 PORT=5001
 DB_STRING=<your_mongodb_connection_string>
 JWT_SECRET=this_is_my_secret_jwt_token_1
-JWT_EXPIRY=7d
+JWT_EXPIRY=90d
 ```
 
 4. **Start the server**
@@ -58,6 +58,11 @@ npm start
       "password": "your_password"
     }
     ```
+  - **Validation:**
+    - `username`: Must be at least 3 characters long.
+    - `email`: Must be a valid email address.
+    - `password`: Must be at least 6 characters long.
+  - **Description:** This endpoint allows a new user to sign up by providing a username, email, and password. The password is hashed before being stored in the database. Upon successful signup, a JWT token is created and sent back in an HttpOnly cookie.
 
 - **Login**
 
@@ -70,10 +75,15 @@ npm start
       "password": "your_password"
     }
     ```
+  - **Validation:**
+    - `email`: Must be a valid email address.
+    - `password`: Must be at least 6 characters long.
+  - **Description:** This endpoint allows an existing user to log in by providing their email and password. The password is compared with the hashed password stored in the database. Upon successful login, a JWT token is created and sent back in an HttpOnly cookie.
 
 - **Logout**
   - **URL:** `/api/logout`
   - **Method:** `POST`
+  - **Description:** This endpoint logs out the user by clearing the JWT cookie.
 
 ### **Protected Routes**
 
@@ -87,6 +97,7 @@ npm start
       "Authorization": "Bearer <your_jwt_token>"
     }
     ```
+  - **Description:** This endpoint provides the dashboard data, which includes a list of hotels. The request must include a valid JWT token in the Authorization header.
 
 - **Get Map Data**
 
@@ -98,6 +109,7 @@ npm start
       "Authorization": "Bearer <your_jwt_token>"
     }
     ```
+  - **Description:** This endpoint provides detailed information about a specific hotel, including its location on the map. The request must include a valid JWT token in the Authorization header.
 
 - **Validate Authentication**
   - **URL:** `/api/auth/validate`
@@ -108,6 +120,7 @@ npm start
       "Authorization": "Bearer <your_jwt_token>"
     }
     ```
+  - **Description:** This endpoint validates the user's authentication status. If the user is authenticated, it returns a success message.
 
 ## **Project Structure**
 
@@ -136,7 +149,7 @@ The dummy hotel data is stored in the `backend/utils/dummyData.js` file and is u
 
 ## **Middleware**
 
-The `auth.middleware.js` file contains the `protect` middleware function, which is used to protect routes that require authentication.
+The `auth.middleware.js` file contains the `protect` middleware function, which is used to protect routes that require authentication. It verifies the JWT token and ensures the user is authenticated before allowing access to the protected routes.
 
 ## **Controllers**
 
@@ -169,6 +182,23 @@ The `package.json` file includes the following dependencies:
     "nodemon": "^3.1.9"
   }
 }
+```
+
+## **Authentication and Authorization**
+
+The application uses JWT (JSON Web Tokens) for authentication and authorization. The backend issues a JWT upon successful login or signup, which is stored in an HttpOnly cookie. This token is then used to authenticate subsequent requests to protected routes.
+
+### **Protect Middleware**
+
+The `protect` middleware function in `auth.middleware.js` is used to protect routes that require authentication. It verifies the JWT token and ensures the user is authenticated before allowing access to the protected routes.
+
+Example of using the `protect` middleware:
+
+```javascript
+const { protect } = require("../middlewares/auth.middleware");
+
+router.get("/dashboard", protect, getDashboardData);
+router.get("/map/:id", protect, getMapData);
 ```
 
 ---
@@ -206,7 +236,13 @@ cd frontend
 npm install
 ```
 
-3. **Start the development server**
+3. **Create a `.env.production` file in the `frontend` directory and add the following environment variable:**
+
+```env
+VITE_RENDER_API=https://syncthreads-backend-0myw.onrender.com/api
+```
+
+4. **Start the development server**
 
 ```bash
 npm run dev
@@ -227,6 +263,8 @@ frontend/
   │   │   ├── Markers.jsx
   │   │   ├── Navbar.jsx
   │   │   └── ProtectedRoute.jsx
+  │   ├── context/
+  │   │   └── AuthContext.jsx
   │   ├── pages/
   │   │   ├── Dashboard.jsx
   │   │   ├── Home.jsx
@@ -239,6 +277,7 @@ frontend/
   │   ├── App.jsx
   │   ├── index.css
   │   └── main.jsx
+  ├── .env.production
   ├── .gitignore
   ├── package.json
   ├── README.md
@@ -270,7 +309,11 @@ frontend/
 
 ## **Authentication and Authorization**
 
-The application uses JWT (JSON Web Tokens) for authentication and authorization. The backend issues a JWT upon successful login or signup, which is stored in an HttpOnly cookie. This token is then used to authenticate subsequent requests to protected routes.
+The application uses JWT (JSON Web Tokens) for authentication and authorization. The backend issues a JWT upon successful login or signup, which is stored in localStorage. This token is then used to authenticate subsequent requests to protected routes.
+
+### **AuthContext**
+
+The `AuthContext.jsx` file provides a context for managing authentication state. It includes functions for signup, login, and logout.
 
 ### **Protected Routes**
 

@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import backgroundImage from "../assets/bg.png";
 import { Link, useNavigate } from "react-router-dom";
 import { axiosInstance } from "../utils/axios";
 import { toast } from "react-toastify";
+import { AuthContext } from "../context/AuthContext";
 
 const Main = styled.main`
   display: flex;
@@ -63,6 +64,8 @@ const Main = styled.main`
 `;
 
 function Signup() {
+  const { signup } = useContext(AuthContext);
+
   const [userData, setUserData] = useState({
     username: "",
     email: "",
@@ -82,8 +85,8 @@ function Signup() {
       const res = await axiosInstance.post("/signup", userData);
 
       if (res.status === 201) {
+        signup(res.data.token);
         toast.success("User created successfully");
-        localStorage.setItem("token", res.data.token);
         navigate("/dashboard");
       }
     } catch (err) {

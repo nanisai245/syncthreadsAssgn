@@ -1,23 +1,14 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useState } from "react";
 
-const AuthContext = createContext();
-
-export const useAuth = () => useContext(AuthContext);
+export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [isAuth, setIsAuth] = useState(!!localStorage.getItem("token"));
 
-  useEffect(() => {
-    const handleStorageChange = () => {
-      setIsAuth(!!localStorage.getItem("token"));
-    };
-
-    window.addEventListener("storage", handleStorageChange);
-
-    return () => {
-      window.removeEventListener("storage", handleStorageChange);
-    };
-  }, []);
+  const signup = (token) => {
+    localStorage.setItem("token", token);
+    setIsAuth(true);
+  };
 
   const login = (token) => {
     localStorage.setItem("token", token);
@@ -30,7 +21,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ isAuth, login, logout }}>
+    <AuthContext.Provider value={{ isAuth, login, logout, signup }}>
       {children}
     </AuthContext.Provider>
   );

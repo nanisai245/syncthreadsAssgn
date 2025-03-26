@@ -11,11 +11,11 @@ const createCookie = (user, statusCode, res) => {
   const token = createToken(user._id);
 
   res.cookie("jwt", token, {
-    httpOnly: true, // Prevents client-side access
-    secure: true, // Ensures cookie is only sent over HTTPS
-    sameSite: "None", // Allows cross-site cookies
-    path: "/", // Ensures the cookie is accessible across the app
-    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days expiration
+    httpOnly: true,
+    secure: true,
+    sameSite: "None",
+    path: "/",
+    maxAge: 7 * 24 * 60 * 60 * 1000,
   });
 
   res.status(statusCode).json({

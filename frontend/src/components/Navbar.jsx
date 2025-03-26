@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import logo from "../assets/Vector.png";
 import styled from "styled-components";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { axiosInstance } from "../utils/axios";
 import { toast } from "react-toastify";
-import { useAuth } from "../context/AuthContext";
+import { AuthContext } from "../context/AuthContext";
 
 const Header = styled.header`
   width: 100%;
@@ -56,13 +56,13 @@ const Div = styled.div`
 `;
 
 function Navbar() {
-  const { isAuth, logout } = useAuth();
+  const { isAuth, logout } = useContext(AuthContext);
   const navigate = useNavigate();
   // const [isAuth, setIsAuth] = useState(!!localStorage.getItem("token"));
 
   const handleLogout = async () => {
     await axiosInstance.post("/logout");
-    logout(); // Use the global logout function
+    logout();
     toast.success("User logged out successfully");
     navigate("/login");
   };
